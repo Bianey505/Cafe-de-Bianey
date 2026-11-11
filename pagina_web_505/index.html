@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cafetería Escolar</title>
+    <style>
+        body { font-family: Arial; margin: 20px; background-color: #f5f5f5; }
+        header, footer { background-color: #9b28ad; color: white; text-align: center; padding: 15px; }
+        .titulo { display: flex; align-items: center; width: max-content; margin: auto; gap: 10px; }
+        .titulo img { width: 65px; height: 65px; object-fit: cover; border-radius: 8px; }
+        .titulo h1 { margin: 0; }
+        .titulo p { margin: 8px 0 0; }
+        nav { background-color: #ddd; padding: 10px; text-align: center; }
+        nav a { margin: 10px; text-decoration: none; }
+        section { background-color: white; padding: 15px; margin-top: 15px; }
+        img { width: 100px; border-radius: 15px; border: 3px solid #9b28ad; display: block; margin: 10px auto; }
+        table { width: 70%; margin: 15px auto; border-collapse: collapse; }
+        th { background-color: #9b28ad; color: white; padding: 10px; }
+        td { border: 1px solid #9b28ad; padding: 8px; text-align: center; }
+        form { width: 350px; margin: auto; padding: 20px; background-color: #eee; border-radius: 10px; }
+        input, textarea { width: 95%; padding: 8px; margin-top: 5px; }
+        textarea { height: 80px; }
+        button { background-color: #9b28ad; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+        .alerta { display: none; background-color: #e1bee7; padding: 10px; text-align: center; border: 2px solid #9b28ad; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="titulo">
+            <img src="cafeteria.jpg" alt="Cafetería">
+            <div>
+                <h1>Cafetería Escolar</h1>
+                <p>Alimentos y bebidas para estudiantes</p>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#menu">Menú</a> | <a href="#contacto">Contacto</a>
+    </nav>
+
+    <main>
+        <section id="contenedorRespuesta" class="alerta">
+            <h2 id="textoRespuesta"></h2>
+            <a href="index.html">Regresar</a>
+        </section>
+
+        <section id="menu">
+            <h2>Menú</h2>
+            <table>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                </tr>
+                <tr>
+                    <td>Hamburguesa</td>
+                    <td>$45</td>
+                </tr>
+                <tr>
+                    <td>Jugo</td>
+                    <td>$20</td>
+                </tr>
+                <tr>
+                    <td>Sándwich</td>
+                    <td>$30</td>
+                </tr>
+            </table>
+        </section>
+
+        <section id="contacto">
+            <h2>Contacto</h2>
+            <form id="formulario" action="index.php" method="POST">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" required>
+                <br><br>
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo" name="correo" placeholder="Escribe tu correo" required>
+                <br><br>
+                <label for="mensajeTexto">Mensaje:</label>
+                <textarea id="mensajeTexto" name="mensaje" placeholder="Escribe tu mensaje" required></textarea>
+                <br><br>
+                <button type="submit" name="guardar">Guardar</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Eliminar registro</h2>
+            <form action="index.php" method="POST">
+                <label for="correoEliminar">Correo Electrónico:</label>
+                <input type="email" id="correoEliminar" name="correo" placeholder="Escribe el correo" required>
+                <br><br>
+                <button type="submit" name="eliminar" onclick="return confirm('¿Deseas eliminar este registro?')">
+                    Eliminar
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>Cafetería Escolar 2026</p>
+    </footer>
+
+    <script>
+        document.getElementById("formulario").addEventListener("submit", function(event) {
+            let nombre = document.getElementById("nombre").value.trim();
+            let correo = document.getElementById("correo").value.trim();
+            let mensaje = document.getElementById("mensajeTexto").value.trim();
+
+            if (nombre === "" || correo === "" || mensaje === "") {
+                event.preventDefault();
+                alert("Por favor, completa todos los campos.");
+            }
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const mensajeServidor = urlParams.get('msg');
+        
+        if (mensajeServidor) {
+            document.getElementById("textoRespuesta").innerText = decodeURIComponent(mensajeServidor);
+            document.getElementById("contenedorRespuesta").style.display = "block";
+        }
+    </script>
+</body>
+</html>
